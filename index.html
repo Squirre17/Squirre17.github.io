@@ -344,7 +344,7 @@
 <h2 id="补充调试"><a href="#补充调试" class="headerlink" title="补充调试"></a>补充调试</h2><p><a target="_blank" rel="noopener" href="https://hub.docker.com/r/chenaotian/cve-2021-4034">https://hub.docker.com/r/chenaotian/cve-2021-4034</a></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">catch exec</span><br><span class="line">r</span><br><span class="line">b *$rebase(0x2380)</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2022/08/10/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83.assets%5Cimage.png" alt="image"></p>
+<p><img src="/2022/08/10/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83%5Cimage.png" alt="image"></p>
 <p>两次结果对比</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">02:0010│     0x7fffa507a720 —▸ 0x7fffa507bfad ◂— &#x27;pwnkitdir&#x27;</span><br><span class="line">03:0018│     0x7fffa507a728 —▸ 0x7fffa507bfb7 ◂— &#x27;PATH=GCONV_PATH=.&#x27;</span><br><span class="line">04:0020│     0x7fffa507a730 —▸ 0x7fffa507bfc9 ◂— &#x27;CHARSET=PWNKIT&#x27;</span><br><span class="line">05:0028│     0x7fffa507a738 —▸ 0x7fffa507bfd8 ◂— &#x27;SHELL=xxx&#x27;</span><br></pre></td></tr></table></figure>
 
