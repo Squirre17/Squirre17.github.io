@@ -5,15 +5,14 @@
         <link>http://example.com</link>
         <description></description>
         <language>en</language>
-        <pubDate>Wed, 10 Aug 2022 15:25:43 +0800</pubDate>
-        <lastBuildDate>Wed, 10 Aug 2022 15:25:43 +0800</lastBuildDate>
+        <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
+        <lastBuildDate>Wed, 11 Aug 2021 00:00:00 +0800</lastBuildDate>
         <item>
-            <guid isPermalink="true">http://example.com/2022/08/10/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
-            <title>CVE-2021-4030 polkit-pkexec 本地提权</title>
-            <link>http://example.com/2022/08/10/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
-            <pubDate>Wed, 10 Aug 2022 15:25:43 +0800</pubDate>
-            <description><![CDATA[ &lt;p&gt;[toc]&lt;/p&gt;
-&lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
+            <guid isPermalink="true">http://example.com/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
+            <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
+            <link>http://example.com/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
+            <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://bbs.pediy.com/thread-271423.htm&#34;&gt;看雪大爹&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://trganda.github.io/posts/iconv/&#34;&gt;GCONV_PATH 利用&lt;/a&gt;&lt;/li&gt;
@@ -234,7 +233,7 @@ pkexec 执行的提权&lt;/p&gt;
 &lt;h2 id=&#34;补充调试&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#补充调试&#34;&gt;#&lt;/a&gt; 补充调试&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&#34;https://hub.docker.com/r/chenaotian/cve-2021-4034&#34;&gt;https://hub.docker.com/r/chenaotian/cve-2021-4034&lt;/a&gt;&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;catch exec&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;r&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;b *$rebase(0x2380)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;&lt;img src=&#34;/2022/08/10/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/image.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/image.png&#34; alt=&#34;image&#34;&gt;&lt;/p&gt;
 &lt;p&gt;两次结果对比&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;02:0010│     0x7fffa507a720 —▸ 0x7fffa507bfad ◂— &amp;#x27;pwnkitdir&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;03:0018│     0x7fffa507a728 —▸ 0x7fffa507bfb7 ◂— &amp;#x27;PATH=GCONV_PATH=.&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;04:0020│     0x7fffa507a730 —▸ 0x7fffa507bfc9 ◂— &amp;#x27;CHARSET=PWNKIT&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;05:0028│     0x7fffa507a738 —▸ 0x7fffa507bfd8 ◂— &amp;#x27;SHELL=xxx&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;00:0000│ rax 0x7fffa507a720 —▸ 0x55b966a37f50 ◂— &amp;#x27;GCONV_PATH=./pwnkitdir&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;01:0008│     0x7fffa507a728 —▸ 0x7fffa507bfb7 ◂— &amp;#x27;PATH=GCONV_PATH=.&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;02:0010│     0x7fffa507a730 —▸ 0x7fffa507bfc9 ◂— &amp;#x27;CHARSET=PWNKIT&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;03:0018│     0x7fffa507a738 —▸ 0x7fffa507bfd8 ◂— &amp;#x27;SHELL=xxx&amp;#x27;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
