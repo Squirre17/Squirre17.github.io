@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <rss version="2.0">
     <channel>
-        <title>Hexo</title>
-        <link>http://example.com</link>
-        <description></description>
+        <title>Squirre17 Blog</title>
+        <link>https://Squirre17.github.io</link>
+        <description>description test</description>
         <language>en</language>
         <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
         <lastBuildDate>Wed, 11 Aug 2021 00:00:00 +0800</lastBuildDate>
         <item>
-            <guid isPermalink="true">http://example.com/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
+            <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
             <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
-            <link>http://example.com/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
+            <link>https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
             <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;top_img: TODO&lt;/p&gt;
 &lt;p&gt;aplayer: TODO&lt;/p&gt;

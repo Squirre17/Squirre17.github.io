@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Squirre17 Blog</title>
   
+  <subtitle>subtitle test</subtitle>
+  <link href="https://squirre17.github.io/atom.xml" rel="self"/>
   
-  <link href="http://example.com/atom.xml" rel="self"/>
-  
-  <link href="http://example.com/"/>
+  <link href="https://squirre17.github.io/"/>
   <updated>2021-08-10T16:00:00.000Z</updated>
-  <id>http://example.com/</id>
+  <id>https://squirre17.github.io/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Squirre17</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
-    <link href="http://example.com/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/"/>
-    <id>http://example.com/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</id>
+    <link href="https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/"/>
+    <id>https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</id>
     <published>2021-08-10T16:00:00.000Z</published>
     <updated>2021-08-10T16:00:00.000Z</updated>
     
