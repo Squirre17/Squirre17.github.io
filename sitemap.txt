@@ -1,5 +1,4 @@
 https://squirre17.github.io/categories/index.html
 https://squirre17.github.io/tags/index.html
 https://squirre17.github.io/link/index.html
-https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/
 https://squirre17.github.io/
