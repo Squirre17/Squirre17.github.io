@@ -7,10 +7,15 @@
         <language>en</language>
         <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
         <lastBuildDate>Wed, 11 Aug 2021 00:00:00 +0800</lastBuildDate>
+        <category>Linux</category>
+        <category>User state</category>
+        <category>IoT</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
             <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
             <link>https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
+            <category>Linux</category>
+            <category>User state</category>
             <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
             <description><![CDATA[ &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;ul&gt;
@@ -252,6 +257,7 @@ pkexec 执行的提权&lt;/p&gt;
             <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/</guid>
             <title>CVE–2019–8985 Netis WF2411 RCE detail</title>
             <link>https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/</link>
+            <category>IoT</category>
             <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
             <description><![CDATA[ &lt;h2 id=&#34;环境搭建&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#环境搭建&#34;&gt;#&lt;/a&gt; 环境搭建&lt;/h2&gt;
 &lt;p&gt;固件获取  &lt;a href=&#34;https://www.netis-systems.com/Suppory/de_details/id/1/de/168.html&#34;&gt;WF2419&lt;/a&gt;&lt;br&gt;

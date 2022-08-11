@@ -4,3 +4,7 @@ https://squirre17.github.io/link/index.html
 https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/
 https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/
 https://squirre17.github.io/
+https://squirre17.github.io/tags/Linux/
+https://squirre17.github.io/tags/User-state/
+https://squirre17.github.io/tags/IoT/
+https://squirre17.github.io/categories/CVE-recur/

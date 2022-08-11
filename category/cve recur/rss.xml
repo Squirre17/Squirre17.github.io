@@ -1,17 +1,23 @@
 <?xml version="1.0"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://Squirre17.github.io</id>
-    <title>Squirre17 Blog</title>
-    <link href="https://Squirre17.github.io" />
-    <updated>2021-08-10T16:00:00.000Z</updated>
-    <category term="Linux" />
-    <category term="User state" />
-    <category term="IoT" />
-    <entry>
-        <id>https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</id>
-        <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
-        <link rel="alternate" href="https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/"/>
-        <content type="html">&lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
+<rss version="2.0">
+    <channel>
+        <title>Squirre17 Blog • Posts by &#34;cve recur&#34; category</title>
+        <link>https://Squirre17.github.io</link>
+        <description>description test</description>
+        <language>en</language>
+        <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
+        <lastBuildDate>Wed, 11 Aug 2021 00:00:00 +0800</lastBuildDate>
+        <category>Linux</category>
+        <category>User state</category>
+        <category>IoT</category>
+        <item>
+            <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
+            <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
+            <link>https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
+            <category>Linux</category>
+            <category>User state</category>
+            <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://bbs.pediy.com/thread-271423.htm&#34;&gt;看雪大爹&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://trganda.github.io/posts/iconv/&#34;&gt;GCONV_PATH 利用&lt;/a&gt;&lt;/li&gt;
@@ -245,16 +251,15 @@ pkexec 执行的提权&lt;/p&gt;
 &lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;shells = g_strsplit (contents, &lt;span class=&#34;string&#34;&gt;&amp;quot;\n&amp;quot;&lt;/span&gt;, &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt; (n = &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;; shells != &lt;span class=&#34;literal&#34;&gt;NULL&lt;/span&gt; &amp;amp;&amp;amp; shells[n] != &lt;span class=&#34;literal&#34;&gt;NULL&lt;/span&gt;; n++)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (g_strcmp0 (shell, shells[n]) == &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        ret = TRUE;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;span class=&#34;keyword&#34;&gt;goto&lt;/span&gt; out;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;在后面调用了&lt;/p&gt;
 &lt;figure class=&#34;highlight c&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;37&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;comment&#34;&gt;/* To qualify for the paranoia goldstar - we validate the value of each&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;       * environment variable passed through - this is to attempt to avoid&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;       * exploits in (potentially broken) programs launched via pkexec(1).&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;comment&#34;&gt;       */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (!validate_environment_variable (key, value))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &lt;span class=&#34;keyword&#34;&gt;goto&lt;/span&gt; out;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;然后里面又调用了---------------------------------------------------&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;comment&#34;&gt;/* special case $SHELL */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (g_strcmp0 (key, &lt;span class=&#34;string&#34;&gt;&amp;quot;SHELL&amp;quot;&lt;/span&gt;) == &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;comment&#34;&gt;/* check if it&amp;#x27;s in /etc/shells */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (!is_valid_shell (value))&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          log_message (LOG_CRIT, TRUE,&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;                       &lt;span class=&#34;string&#34;&gt;&amp;quot;The value for the SHELL variable was not found in the /etc/shells file&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          g_printerr (&lt;span class=&#34;string&#34;&gt;&amp;quot;\n&amp;quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;                      &lt;span class=&#34;string&#34;&gt;&amp;quot;This incident has been reported.\n&amp;quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          &lt;span class=&#34;keyword&#34;&gt;goto&lt;/span&gt; out;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;-----------------------------------------------------------------------&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;for&lt;/span&gt; (n = &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;; shells != &lt;span class=&#34;literal&#34;&gt;NULL&lt;/span&gt; &amp;amp;&amp;amp; shells[n] != &lt;span class=&#34;literal&#34;&gt;NULL&lt;/span&gt;; n++)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;      &lt;span class=&#34;keyword&#34;&gt;if&lt;/span&gt; (g_strcmp0 (shell, shells[n]) == &lt;span class=&#34;number&#34;&gt;0&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          ret = TRUE;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;          &lt;span class=&#34;keyword&#34;&gt;goto&lt;/span&gt; out;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt; out:&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  g_free (contents);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  g_strfreev (shells);&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;  &lt;span class=&#34;keyword&#34;&gt;return&lt;/span&gt; ret;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-</content>
-        <category term="Linux" />
-        <category term="User state" />
-        <updated>2021-08-10T16:00:00.000Z</updated>
-    </entry>
-    <entry>
-        <id>https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/</id>
-        <title>CVE–2019–8985 Netis WF2411 RCE detail</title>
-        <link rel="alternate" href="https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/"/>
-        <content type="html">&lt;h2 id=&#34;环境搭建&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#环境搭建&#34;&gt;#&lt;/a&gt; 环境搭建&lt;/h2&gt;
+ ]]></description>
+        </item>
+        <item>
+            <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/</guid>
+            <title>CVE–2019–8985 Netis WF2411 RCE detail</title>
+            <link>https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/</link>
+            <category>IoT</category>
+            <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
+            <description><![CDATA[ &lt;h2 id=&#34;环境搭建&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#环境搭建&#34;&gt;#&lt;/a&gt; 环境搭建&lt;/h2&gt;
 &lt;p&gt;固件获取  &lt;a href=&#34;https://www.netis-systems.com/Suppory/de_details/id/1/de/168.html&#34;&gt;WF2419&lt;/a&gt;&lt;br&gt;
 &lt;a href=&#34;https://www.tacnetsol.com/blog/cve-2019-8985-rce&#34;&gt;Fetching Title#sw0w&lt;/a&gt;&lt;br&gt;
  选择 WF2419（2.2.36123）&lt;/p&gt;
@@ -368,8 +373,7 @@ libgcc 中&lt;br&gt;
 &lt;img src=&#34;/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/20220719182949.png&#34; alt&gt;&lt;/p&gt;
 &lt;h2 id=&#34;未完&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#未完&#34;&gt;#&lt;/a&gt; 未完&lt;/h2&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;➜  squrootfs grep -r &amp;quot;Authorization: Basic &amp;quot; .&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Binary file ./bin/updatedd matches&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Binary file ./bin/busybox matches&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;grep: ./var/run/webs.pid: Permission denied&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;➜  squrootfs grep -r &amp;quot;User-Agent: Real UserAgent&amp;quot; .&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;grep: ./var/run/webs.pid: Permission denied&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;➜  squrootfs grep -r &amp;quot;User-Agent: &amp;quot; .              &lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Binary file ./bin/updatedd matches&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;Binary file ./bin/busybox matches&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-</content>
-        <category term="IoT" />
-        <updated>2021-08-10T16:00:00.000Z</updated>
-    </entry>
-</feed>
+ ]]></description>
+        </item>
+    </channel>
+</rss>
