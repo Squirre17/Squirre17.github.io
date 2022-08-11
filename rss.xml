@@ -12,8 +12,7 @@
             <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
             <link>https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</link>
             <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
-            <description><![CDATA[ &lt;p&gt;top_img: TODO&lt;/p&gt;
-&lt;p&gt;aplayer: TODO&lt;/p&gt;
+            <description><![CDATA[ &lt;p&gt;aplayer: TODO&lt;/p&gt;
 &lt;h2 id=&#34;参考&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#参考&#34;&gt;#&lt;/a&gt; 参考&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://bbs.pediy.com/thread-271423.htm&#34;&gt;看雪大爹&lt;/a&gt;&lt;/li&gt;
