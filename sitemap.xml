@@ -58,7 +58,7 @@
 
   <url>
     <loc>https://squirre17.github.io/</loc>
-    <lastmod>2022-08-11</lastmod>
+    <lastmod>2022-08-14</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -66,21 +66,21 @@
   
   <url>
     <loc>https://squirre17.github.io/tags/IoT/</loc>
-    <lastmod>2022-08-11</lastmod>
+    <lastmod>2022-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/Linux/</loc>
-    <lastmod>2022-08-11</lastmod>
+    <lastmod>2022-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/User-state/</loc>
-    <lastmod>2022-08-11</lastmod>
+    <lastmod>2022-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -89,7 +89,7 @@
   
   <url>
     <loc>https://squirre17.github.io/categories/CVE-recur/</loc>
-    <lastmod>2022-08-11</lastmod>
+    <lastmod>2022-08-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
