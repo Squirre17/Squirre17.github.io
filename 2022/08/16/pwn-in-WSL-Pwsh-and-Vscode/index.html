@@ -1,0 +1,180 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>pwn in WSL Pwsh and Vscode | Squirre17 Blog</title><meta name="keywords" content="WSL vscode powershell"><meta name="author" content="Squirre17"><meta name="copyright" content="Squirre17"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="# 背景提要 回校后来到实验室 借用了下姚佬的 2k 大屏 发现确实舒服 但是有个致命的问题 键盘输入和显示器显示有明显的延迟 但是在主机就没事 加上之前也厌烦了在主机和虚拟机之间划来划去 怪麻烦的 就想有没有可替代的方案 让我不需要进虚拟机（将其当个远程服务器） 就能舒舒服服的做 pwn 题 然后发现了 Csome 师傅的博客 是用 powershell 在 wsl 进行的 然后我审计了一下 p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pwn in WSL Pwsh and Vscode">
+<meta property="og:url" content="https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/index.html">
+<meta property="og:site_name" content="Squirre17 Blog">
+<meta property="og:description" content="# 背景提要 回校后来到实验室 借用了下姚佬的 2k 大屏 发现确实舒服 但是有个致命的问题 键盘输入和显示器显示有明显的延迟 但是在主机就没事 加上之前也厌烦了在主机和虚拟机之间划来划去 怪麻烦的 就想有没有可替代的方案 让我不需要进虚拟机（将其当个远程服务器） 就能舒舒服服的做 pwn 题 然后发现了 Csome 师傅的博客 是用 powershell 在 wsl 进行的 然后我审计了一下 p">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%B0%91%E5%A5%B3%E7%BC%96%E5%8F%B7/QQ%E6%88%AA%E5%9B%BE20220205010256.png">
+<meta property="article:published_time" content="2022-08-16T08:42:50.000Z">
+<meta property="article:modified_time" content="2022-08-16T08:42:50.000Z">
+<meta property="article:author" content="Squirre17">
+<meta property="article:tag" content="Tips">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%B0%91%E5%A5%B3%E7%BC%96%E5%8F%B7/QQ%E6%88%AA%E5%9B%BE20220205010256.png"><link rel="shortcut icon" href="/img/favicon-32x32.png"><link rel="canonical" href="https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'pwn in WSL Pwsh and Vscode',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-08-16 16:42:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Squirre17 Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F/QQ%E5%9B%BE%E7%89%8720220719123528.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%B0%91%E5%A5%B3%E7%BC%96%E5%8F%B7/QQ%E6%88%AA%E5%9B%BE20220205010256.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Squirre17 Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">pwn in WSL Pwsh and Vscode</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-08-16T08:42:50.000Z" title="Created 2022-08-16 16:42:50">2022-08-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-08-16T08:42:50.000Z" title="Updated 2022-08-16 16:42:50">2022-08-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Tips/">Tips</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="pwn in WSL Pwsh and Vscode"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="背景提要"><a class="markdownIt-Anchor" href="#背景提要">#</a> 背景提要</h2>
+<p>回校后来到实验室 借用了下姚佬的 2k 大屏 发现确实舒服 但是有个致命的问题 键盘输入和显示器显示有明显的延迟<br>
+但是在主机就没事<br>
+加上之前也厌烦了在主机和虚拟机之间划来划去 怪麻烦的<br>
+就想有没有可替代的方案 让我不需要进虚拟机（将其当个远程服务器）<br>
+就能舒舒服服的做 pwn 题</p>
+<p>然后发现了<a target="_blank" rel="noopener" href="https://blog.csome.cc/p/2022CISCN-hn-wp/"> Csome</a> 师傅的博客 是用 powershell 在 wsl 进行的<br>
+然后我审计了一下 pwntools 的源码<br>
+确实会启动一个 terminal 进程 将我们输入的参数进去执行<br>
+在 window 下启动的进程是 <code>cmd.exe</code>  是挂载在 <code>/mnt</code>  目录下<br>
+但是由于是跨文件系统 打开实在太慢 （window 的程序要访问 linux 进程内部的内存空间 得先从 Linux 切进 window<br>
+ 在 window 上打开 <code>cmd.exe</code>  再切回 Linux）</p>
+<p>因此寻找别的替代方案<br>
+正好也是 defcon 时期 无聊刷推的时候看到<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=8QAGLdY6bDw"> DEF CON LiveCTF 2022 - Day 2 - YouTube</a><br>
+ 中间的 winpwn 玩家采取的方法<br>
+其实也就是 pause 等待进程 attach 罢了 不过这个足以解决我的一切问题</p>
+<h2 id="pwn脚本中定义个函数"><a class="markdownIt-Anchor" href="#pwn脚本中定义个函数">#</a> pwn 脚本中定义个函数</h2>
+<p>举例 这里定义了一个 dbg 函数 可以将我们传入的断点和 set 信息统统写入 <code>/tmp/gdbscript</code>  作为 gdb 启动信息<br>
+（pwntools 内部就是这么实现的 依葫芦画瓢<br>
+ dft 是预定义的一些信息 比如 <code>set $a=0xdeedbeaf</code>  这些需要每次都写入的就写到 dft 里面去</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">context(os=<span class="string">&quot;Linux&quot;</span>,arch=<span class="string">&quot;amd64&quot;</span>,log_level=<span class="string">&quot;debug&quot;</span>)</span><br><span class="line">p = process(<span class="string">&quot;./emulator&quot;</span>, env=&#123;<span class="string">&quot;LD_PRELOAD&quot;</span>: <span class="string">&quot;./libunicorn.so.1&quot;</span>&#125;)</span><br><span class="line"></span><br><span class="line">se      = <span class="keyword">lambda</span> data               :p.send(data)</span><br><span class="line">sa      = <span class="keyword">lambda</span> delim,data         :p.sendafter(delim, data)</span><br><span class="line">sl      = <span class="keyword">lambda</span> data               :p.sendline(data)</span><br><span class="line">sla     = <span class="keyword">lambda</span> delim,data         :p.sendlineafter(delim, data)</span><br><span class="line">sea     = <span class="keyword">lambda</span> delim,data         :p.sendafter(delim, data)</span><br><span class="line">rc      = <span class="keyword">lambda</span> numb=<span class="number">4096</span>          :p.recv(numb)</span><br><span class="line">rl      = <span class="keyword">lambda</span>                    :p.recvline()</span><br><span class="line">ru      = <span class="keyword">lambda</span> delims             :p.recvuntil(delims)</span><br><span class="line">uu32    = <span class="keyword">lambda</span> data               :u32(data.ljust(<span class="number">4</span>, <span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line">uu64    = <span class="keyword">lambda</span> data               :u64(data.ljust(<span class="number">8</span>, <span class="string">b&#x27;\x00&#x27;</span>))</span><br><span class="line">info    = <span class="keyword">lambda</span> tag, addr          :p.info(<span class="string">&#x27;======&gt;&#x27;</span>+tag + <span class="string">&#x27;: &#123;:#x&#125;&#x27;</span>.<span class="built_in">format</span>(addr))</span><br><span class="line">ir      = <span class="keyword">lambda</span>                    :p.interactive()</span><br><span class="line">sc		  = <span class="keyword">lambda</span> s, addr			   :success(s + <span class="string">&quot; =&gt; &quot;</span> + <span class="built_in">hex</span>(addr))</span><br><span class="line">ps		  = <span class="keyword">lambda</span> 					      :pause()</span><br><span class="line"></span><br><span class="line">dft = [<span class="string">&quot;b *0x1234&quot;</span>, <span class="string">&quot;b *0x7890000&quot;</span>]</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dbg</span>(<span class="params">s=[<span class="string">&quot;&quot;</span>]</span>):</span><br><span class="line">	a = dft + s</span><br><span class="line">	f = <span class="built_in">open</span>(<span class="string">&quot;/tmp/gdbscript&quot;</span>, <span class="string">&quot;w&quot;</span>)</span><br><span class="line">	a = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> x:x + <span class="string">&#x27;\n&#x27;</span>, a))</span><br><span class="line">	f.writelines(a)</span><br><span class="line">	f.close()</span><br><span class="line">	ps()</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">exp</span>():</span><br><span class="line">	libc = ELF(<span class="string">&quot;/lib/x86_64-linux-gnu/libc.so.6&quot;</span>)</span><br><span class="line">	dbg([<span class="string">&quot;b *0xdeedbeaf&quot;</span>])</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">	exp()</span><br><span class="line">	ir()</span><br></pre></td></tr></table></figure>
+<h2 id="gdb的启动方式"><a class="markdownIt-Anchor" href="#gdb的启动方式">#</a> gdb 的启动方式</h2>
+<p>执行 py 脚本 pause 挂起后<br>
+由我们的 powershell 去 attach</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdb attach $(pidof procname) -x /tmp/gdbscript</span><br></pre></td></tr></table></figure>
+<p>procname 是程序名</p>
+<p>或者更直接点 写个脚本 <code>pgdb</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/sh</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">gdb attach $(pidof procname) -x /tmp/gdbscript</span></span><br><span class="line">if [ $# -ne 1 ];then</span><br><span class="line">	echo &quot;usage : pgdb procname&quot;</span><br><span class="line">	exit 1</span><br><span class="line">fi</span><br><span class="line">pid=`pidof $1`</span><br><span class="line">gdb attach $pid -x /tmp/gdbscript</span><br></pre></td></tr></table></figure>
+<p>只需要 <code>pgdb procname</code>  就能 attach 了</p>
+<h2 id="工作流"><a class="markdownIt-Anchor" href="#工作流">#</a> 工作流</h2>
+<p>vscode 写 exp<br>
+vscode terminal 进行 exp 的执行（最喜欢的 terminal<br>
+powershell 进行 gdb<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/20220816164008.png" alt="Pasted image 20220816164008"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="Squirre17">Squirre17</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/">https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://Squirre17.github.io">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Tips/">Tips</a></div><div class="post_share"><div class="social-share" data-image="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%B0%91%E5%A5%B3%E7%BC%96%E5%8F%B7/QQ%E6%88%AA%E5%9B%BE20220205010256.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E8%B7%AF%E4%BA%BA%E5%A5%B3%E4%B8%BB/QQ%E6%88%AA%E5%9B%BE20220419212546.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CVE–2019–8985 Netis WF2411 RCE detail</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%A4%B4%E5%83%8F/QQ%E5%9B%BE%E7%89%8720220719123528.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Squirre17</div><div class="author-info__description">Nothing more than a rookie</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">4</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">2</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Squirre17"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Squirre17" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:Ler2sq@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Beta Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF%E6%8F%90%E8%A6%81"><span class="toc-number">1.</span> <span class="toc-text"> 背景提要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#pwn%E8%84%9A%E6%9C%AC%E4%B8%AD%E5%AE%9A%E4%B9%89%E4%B8%AA%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text"> pwn 脚本中定义个函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#gdb%E7%9A%84%E5%90%AF%E5%8A%A8%E6%96%B9%E5%BC%8F"><span class="toc-number">3.</span> <span class="toc-text"> gdb 的启动方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">4.</span> <span class="toc-text"> 工作流</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/" title="pwn in WSL Pwsh and Vscode"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%B0%91%E5%A5%B3%E7%BC%96%E5%8F%B7/QQ%E6%88%AA%E5%9B%BE20220205010256.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="pwn in WSL Pwsh and Vscode"/></a><div class="content"><a class="title" href="/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/" title="pwn in WSL Pwsh and Vscode">pwn in WSL Pwsh and Vscode</a><time datetime="2022-08-16T08:42:50.000Z" title="Created 2022-08-16 16:42:50">2022-08-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/" title="CVE–2019–8985 Netis WF2411 RCE detail"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E8%B7%AF%E4%BA%BA%E5%A5%B3%E4%B8%BB/QQ%E6%88%AA%E5%9B%BE20220419212546.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE–2019–8985 Netis WF2411 RCE detail"/></a><div class="content"><a class="title" href="/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/" title="CVE–2019–8985 Netis WF2411 RCE detail">CVE–2019–8985 Netis WF2411 RCE detail</a><time datetime="2021-08-10T16:00:00.000Z" title="Created 2021-08-11 00:00:00">2021-08-11</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/" title="CVE-2021-4030 polkit-pkexec 本地提权分析"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="https://squblogs.oss-cn-nanjing.aliyuncs.com/%E5%9B%BE%E7%89%87/%E5%B0%8F%E5%9F%8B/QQ%E6%88%AA%E5%9B%BE20220731002602.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE-2021-4030 polkit-pkexec 本地提权分析"/></a><div class="content"><a class="title" href="/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/" title="CVE-2021-4030 polkit-pkexec 本地提权分析">CVE-2021-4030 polkit-pkexec 本地提权分析</a><time datetime="2021-08-10T16:00:00.000Z" title="Created 2021-08-11 00:00:00">2021-08-11</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Squirre17</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
