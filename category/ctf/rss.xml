@@ -19,7 +19,7 @@
             <category>Blockchain</category>
             <pubDate>Sat, 27 Aug 2022 16:51:10 +0800</pubDate>
             <description><![CDATA[ &lt;p&gt;&lt;a href=&#34;https://capturetheether.com/challenges/math/mapping/&#34;&gt;Capture the Ether - Mapping&lt;/a&gt;&lt;br&gt;
- 从一道赛题入门 blockchain&lt;/p&gt;
+ 从一道题入门 blockchain&lt;/p&gt;
 &lt;h2 id=&#34;evm存储简介&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#evm存储简介&#34;&gt;#&lt;/a&gt; EVM 存储简介&lt;/h2&gt;
 &lt;p&gt;solidity 编译后的数据&lt;br&gt;
 是放在 slot 的结构中&lt;br&gt;
