@@ -3,7 +3,7 @@
     <channel>
         <title>Squirre17 Blog • Posts by &#34;linux&#34; tag</title>
         <link>https://Squirre17.github.io</link>
-        <description>Nothing more than a rookie</description>
+        <description>中年矮臭挫油腻二刺猿死肥宅男什么都不会什么都做不来的废物</description>
         <language>en</language>
         <pubDate>Wed, 11 Aug 2021 00:00:00 +0800</pubDate>
         <lastBuildDate>Wed, 11 Aug 2021 00:00:00 +0800</lastBuildDate>
@@ -11,6 +11,7 @@
         <category>Linux</category>
         <category>User state</category>
         <category>Tips</category>
+        <category>Blockchain</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
             <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>

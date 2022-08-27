@@ -3,7 +3,7 @@
     <channel>
         <title>Squirre17 Blog • Posts by &#34;tips&#34; category</title>
         <link>https://Squirre17.github.io</link>
-        <description>Nothing more than a rookie</description>
+        <description>中年矮臭挫油腻二刺猿死肥宅男什么都不会什么都做不来的废物</description>
         <language>en</language>
         <pubDate>Tue, 16 Aug 2022 16:42:50 +0800</pubDate>
         <lastBuildDate>Tue, 16 Aug 2022 16:42:50 +0800</lastBuildDate>
@@ -11,6 +11,7 @@
         <category>Linux</category>
         <category>User state</category>
         <category>Tips</category>
+        <category>Blockchain</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/</guid>
             <title>pwn in WSL Pwsh and Vscode</title>
