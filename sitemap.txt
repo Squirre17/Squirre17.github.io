@@ -1,3 +1,4 @@
+https://squirre17.github.io/2022/09/02/Capture-the-ether-Lotteries-wp/
 https://squirre17.github.io/2022/08/27/BlockChain-from-scratch-mapping/
 https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/
 https://squirre17.github.io/about/index.html
