@@ -1,3 +1,4 @@
+https://squirre17.github.io/2022/09/11/kernel-notebook-three-solutions/
 https://squirre17.github.io/2022/09/02/Capture-the-ether-Lotteries-wp/
 https://squirre17.github.io/2022/08/27/BlockChain-from-scratch-mapping/
 https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/
@@ -13,6 +14,8 @@ https://squirre17.github.io/tags/Linux/
 https://squirre17.github.io/tags/User-state/
 https://squirre17.github.io/tags/Tips/
 https://squirre17.github.io/tags/Blockchain/
+https://squirre17.github.io/tags/Kernel-state/
 https://squirre17.github.io/categories/CVE-recur/
 https://squirre17.github.io/categories/Tips/
 https://squirre17.github.io/categories/ctf/
+https://squirre17.github.io/categories/CTF/
