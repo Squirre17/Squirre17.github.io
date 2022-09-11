@@ -21,6 +21,7 @@
             <category>Kernel state</category>
             <pubDate>Sun, 11 Sep 2022 10:28:41 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;notebook的多种解法&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#notebook的多种解法&#34;&gt;#&lt;/a&gt; notebook 的多种解法&lt;/h1&gt;
+&lt;p&gt;2021 QWB&lt;/p&gt;
 &lt;p&gt;这个题就是考锁没加好的多线程条件竞争&lt;/p&gt;
 &lt;h2 id=&#34;传统rop-ptmx&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#传统rop-ptmx&#34;&gt;#&lt;/a&gt; 传统 ROP -ptmx&lt;/h2&gt;
 &lt;p&gt;利用 realloc 指针延迟回写的效果 将 free 的块回写回控制区&lt;/p&gt;
