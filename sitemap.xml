@@ -2,9 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://squirre17.github.io/2022/09/12/2022-cakeCTF-pwn-wp/</loc>
+    <loc>https://squirre17.github.io/2022/09/16/a-easy-virtualization-challenge/</loc>
     
-    <lastmod>2022-09-12</lastmod>
+    <lastmod>2022-09-16</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -13,7 +13,16 @@
   <url>
     <loc>https://squirre17.github.io/2022/09/11/kernel-notebook-three-solutions/</loc>
     
-    <lastmod>2022-09-11</lastmod>
+    <lastmod>2022-09-16</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://squirre17.github.io/2022/09/12/2022-cakeCTF-pwn-wp/</loc>
+    
+    <lastmod>2022-09-12</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -153,6 +162,13 @@
   
   <url>
     <loc>https://squirre17.github.io/tags/writeup/</loc>
+    <lastmod>2022-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://squirre17.github.io/tags/virtualization/</loc>
     <lastmod>2022-09-16</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
