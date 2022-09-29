@@ -1,3 +1,4 @@
+https://squirre17.github.io/2022/09/29/hexp-2020-kernel-rop/
 https://squirre17.github.io/2022/09/16/a-easy-virtualization-challenge/
 https://squirre17.github.io/2022/09/11/kernel-notebook-three-solutions/
 https://squirre17.github.io/2022/09/12/2022-cakeCTF-pwn-wp/
