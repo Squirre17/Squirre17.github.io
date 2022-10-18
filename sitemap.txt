@@ -1,3 +1,4 @@
+https://squirre17.github.io/2022/10/18/shared-memory-and-semaphore-machenism/
 https://squirre17.github.io/2022/09/29/hexp-2020-kernel-rop/
 https://squirre17.github.io/2022/10/18/llvm-init/
 https://squirre17.github.io/2022/08/27/BlockChain-from-scratch-mapping/
@@ -27,3 +28,4 @@ https://squirre17.github.io/categories/Tips/
 https://squirre17.github.io/categories/ctf/
 https://squirre17.github.io/categories/CTF/
 https://squirre17.github.io/categories/Static-Analysis/
+https://squirre17.github.io/categories/C/

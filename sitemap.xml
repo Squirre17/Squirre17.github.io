@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://squirre17.github.io/2022/10/18/shared-memory-and-semaphore-machenism/</loc>
+    
+    <lastmod>2022-10-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://squirre17.github.io/2022/09/29/hexp-2020-kernel-rop/</loc>
     
     <lastmod>2022-10-18</lastmod>
@@ -231,6 +240,13 @@
   
   <url>
     <loc>https://squirre17.github.io/categories/Static-Analysis/</loc>
+    <lastmod>2022-10-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://squirre17.github.io/categories/C/</loc>
     <lastmod>2022-10-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
