@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://squirre17.github.io/2022/10/26/Ghidra-INDIRECT-explanation/</loc>
+    
+    <lastmod>2022-10-26</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://squirre17.github.io/2022/08/27/BlockChain-from-scratch-mapping/</loc>
     
     <lastmod>2022-10-19</lastmod>
@@ -203,6 +212,13 @@
   
   <url>
     <loc>https://squirre17.github.io/tags/llvm/</loc>
+    <lastmod>2022-10-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://squirre17.github.io/tags/Ghidra/</loc>
     <lastmod>2022-10-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
