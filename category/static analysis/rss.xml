@@ -17,6 +17,7 @@
         <category>virtualization</category>
         <category>llvm</category>
         <category>Ghidra</category>
+        <category>debugger</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/10/26/Ghidra-INDIRECT-explanation/</guid>
             <title>Ghidra-INDIRECT-explanation</title>

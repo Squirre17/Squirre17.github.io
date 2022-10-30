@@ -17,6 +17,7 @@
         <category>virtualization</category>
         <category>llvm</category>
         <category>Ghidra</category>
+        <category>debugger</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/09/16/a-easy-virtualization-challenge/</guid>
             <title>a-easy-virtualization-challenge</title>

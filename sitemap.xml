@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://squirre17.github.io/2022/10/30/debugger-impl/</loc>
+    
+    <lastmod>2022-10-30</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://squirre17.github.io/2022/10/26/Ghidra-INDIRECT-explanation/</loc>
     
     <lastmod>2022-10-26</lastmod>
@@ -148,7 +157,7 @@
 
   <url>
     <loc>https://squirre17.github.io/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -156,70 +165,77 @@
   
   <url>
     <loc>https://squirre17.github.io/tags/IoT/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/Linux/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/User-state/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/Tips/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/Blockchain/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/Kernel-state/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/writeup/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/virtualization/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/llvm/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/tags/Ghidra/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://squirre17.github.io/tags/debugger/</loc>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -228,42 +244,49 @@
   
   <url>
     <loc>https://squirre17.github.io/categories/CVE-recur/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/categories/Tips/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/categories/ctf/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/categories/CTF/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/categories/Static-Analysis/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://squirre17.github.io/categories/C/</loc>
-    <lastmod>2022-10-29</lastmod>
+    <lastmod>2022-10-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://squirre17.github.io/categories/basic/</loc>
+    <lastmod>2022-10-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
