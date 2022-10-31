@@ -18,6 +18,7 @@
         <category>llvm</category>
         <category>Ghidra</category>
         <category>debugger</category>
+        <category>symbolic execution</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/09/12/2022-cakeCTF-pwn-wp/</guid>
             <title>2022-cakeCTF-pwn-wp</title>
