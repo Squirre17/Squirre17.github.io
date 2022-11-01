@@ -18,7 +18,6 @@
         <category>llvm</category>
         <category>Ghidra</category>
         <category>debugger</category>
-        <category>symbolic execution</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/08/16/pwn-in-WSL-Pwsh-and-Vscode/</guid>
             <title>pwn in WSL Pwsh and Vscode</title>
