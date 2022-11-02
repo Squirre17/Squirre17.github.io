@@ -18,6 +18,7 @@
         <category>llvm</category>
         <category>Ghidra</category>
         <category>debugger</category>
+        <category>Kernel</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE%E2%80%932019%E2%80%938985-Netis-WF2411-RCE-detail/</guid>
             <title>CVE–2019–8985 Netis WF2411 RCE detail</title>
