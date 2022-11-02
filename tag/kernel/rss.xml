@@ -26,7 +26,8 @@
             <category>Kernel</category>
             <pubDate>Wed, 02 Nov 2022 22:19:00 +0800</pubDate>
             <description><![CDATA[ &lt;h1 id=&#34;basic&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#basic&#34;&gt;#&lt;/a&gt; basic&lt;/h1&gt;
-&lt;p&gt;(之后会把 docker 做好传上去 以后就不用折腾了 QAQ)&lt;/p&gt;
+&lt;p&gt;(之后会把 docker 做好传上去 以后就不用折腾了 QAQ)&lt;br&gt;
+&lt;a href=&#34;https://hub.docker.com/repository/docker/squirre17/dirtypipe&#34;&gt;https://hub.docker.com/repository/docker/squirre17/dirtypipe&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;page-cache&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#page-cache&#34;&gt;#&lt;/a&gt; page cache&lt;/h2&gt;
 &lt;p&gt;Linux 的换页机制是脏页机制，也就是写一个文件是通过写内存缓存页，然后标记脏位，在换页的时候一次性写回磁盘。而不是每次都写磁盘。&lt;br&gt;
 在打开文件的时候可以用 &lt;code&gt;O_DIRECT | O_SYNC&lt;/code&gt;  来标记对脏页进行直写策略，换回同步。&lt;br&gt;
