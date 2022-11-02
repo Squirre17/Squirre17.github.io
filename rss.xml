@@ -93,7 +93,7 @@
 &lt;h2 id=&#34;docker&#34;&gt;&lt;a class=&#34;markdownIt-Anchor&#34; href=&#34;#docker&#34;&gt;#&lt;/a&gt; docker&lt;/h2&gt;
 &lt;p&gt;拉下 ubuntu20, 换个源先&lt;/p&gt;
 &lt;figure class=&#34;highlight shell&#34;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#34;gutter&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#34;code&#34;&gt;&lt;pre&gt;&lt;span class=&#34;line&#34;&gt;sed -i &amp;quot;s/http:\/\/archive.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g&amp;quot; /etc/apt/sources.list&lt;/span&gt;&lt;br&gt;&lt;span class=&#34;line&#34;&gt;apt-get update &amp;amp;&amp;amp; apt-get -y dist-upgrade&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;启动内核的时候千万要注意！！&lt;/p&gt;
+&lt;p&gt;启动 docker 的时候千万要注意！！&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;增加 SYS_PTRACE（打开调试）&lt;/li&gt;
 &lt;li&gt;增加端口映射（这样才能让外部主机连上 gdb）&lt;/li&gt;
