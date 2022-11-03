@@ -1,5 +1,6 @@
-https://squirre17.github.io/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/
+https://squirre17.github.io/2022/11/03/afl-forkserver-maneuver/
 https://squirre17.github.io/2022/10/26/Ghidra-INDIRECT-explanation/
+https://squirre17.github.io/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/
 https://squirre17.github.io/2022/10/30/debugger-impl/
 https://squirre17.github.io/2022/08/27/BlockChain-from-scratch-mapping/
 https://squirre17.github.io/2022/10/18/shared-memory-and-semaphore-machenism/
@@ -29,6 +30,7 @@ https://squirre17.github.io/tags/llvm/
 https://squirre17.github.io/tags/Ghidra/
 https://squirre17.github.io/tags/debugger/
 https://squirre17.github.io/tags/Kernel/
+https://squirre17.github.io/tags/afl/
 https://squirre17.github.io/categories/CVE-recur/
 https://squirre17.github.io/categories/Tips/
 https://squirre17.github.io/categories/ctf/

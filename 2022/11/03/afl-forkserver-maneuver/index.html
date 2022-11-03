@@ -1,0 +1,213 @@
+<!DOCTYPE html><html lang="en" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>afl-forkserver-maneuver | Squirre17 Blog</title><meta name="keywords" content="afl"><meta name="author" content="Squirre17"><meta name="copyright" content="Squirre17"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="# forkserver 的目的 参见 lcamtuf.blogspot  如果每次由 fuzzer 来进行 fork-execve 那么每次目标程序都得进装载器链接器和动态加载库打一套 十分浪费时间。 但是 如果我们劫持了目标程序的_start 让目标程序一开始执行我们写入的 forkserver 代码，这样就能在装载之后通过 COW 实现低成本的 fork。 也就是 forkserver 本身">
+<meta property="og:type" content="article">
+<meta property="og:title" content="afl-forkserver-maneuver">
+<meta property="og:url" content="https://squirre17.github.io/2022/11/03/afl-forkserver-maneuver/index.html">
+<meta property="og:site_name" content="Squirre17 Blog">
+<meta property="og:description" content="# forkserver 的目的 参见 lcamtuf.blogspot  如果每次由 fuzzer 来进行 fork-execve 那么每次目标程序都得进装载器链接器和动态加载库打一套 十分浪费时间。 但是 如果我们劫持了目标程序的_start 让目标程序一开始执行我们写入的 forkserver 代码，这样就能在装载之后通过 COW 实现低成本的 fork。 也就是 forkserver 本身">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://squirre17.github.io/imgs/yuigahama1.jpg">
+<meta property="article:published_time" content="2022-11-03T11:12:15.000Z">
+<meta property="article:modified_time" content="2022-11-03T11:15:58.932Z">
+<meta property="article:author" content="Squirre17">
+<meta property="article:tag" content="afl">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://squirre17.github.io/imgs/yuigahama1.jpg"><link rel="shortcut icon" href="/img/favicon-32x32.png"><link rel="canonical" href="https://squirre17.github.io/2022/11/03/afl-forkserver-maneuver/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: 'days',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'afl-forkserver-maneuver',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-03 19:15:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Squirre17 Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/imgs/yuigahama1.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Squirre17 Blog</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">afl-forkserver-maneuver</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2022-11-03T11:12:15.000Z" title="Created 2022-11-03 19:12:15">2022-11-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2022-11-03T11:15:58.932Z" title="Updated 2022-11-03 19:15:58">2022-11-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Static-Analysis/">Static Analysis</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="afl-forkserver-maneuver"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="forkserver的目的"><a class="markdownIt-Anchor" href="#forkserver的目的">#</a> forkserver 的目的</h1>
+<p>参见 <a target="_blank" rel="noopener" href="https://lcamtuf.blogspot.com/2014/10/fuzzing-binaries-without-execve.html">lcamtuf.blogspot</a><br>
+ 如果每次由 fuzzer 来进行 fork-execve 那么每次目标程序都得进装载器链接器和动态加载库打一套 十分浪费时间。<br>
+但是 如果我们劫持了目标程序的_start 让目标程序一开始执行我们写入的 forkserver 代码，这样就能在装载之后通过 COW 实现低成本的 fork。<br>
+也就是 forkserver 本身就注入到目标程序里面去了，作为目标程序的起始点不断的进行 fork。<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/11/03/afl-forkserver-maneuver/mechanism.png" alt></p>
+<h1 id="trampoline"><a class="markdownIt-Anchor" href="#trampoline">#</a> trampoline</h1>
+<p>这个被插桩到每个基本块之前</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">static</span> <span class="type">const</span> u8* trampoline_fmt_64 =</span><br><span class="line"></span><br><span class="line">  <span class="string">&quot;\n&quot;</span></span><br><span class="line">  <span class="string">&quot;/* --- AFL TRAMPOLINE (64-BIT) --- */\n&quot;</span></span><br><span class="line">  <span class="string">&quot;\n&quot;</span></span><br><span class="line">  <span class="string">&quot;.align 4\n&quot;</span></span><br><span class="line">  <span class="string">&quot;\n&quot;</span></span><br><span class="line">  <span class="string">&quot;leaq -(128+24)(%%rsp), %%rsp\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq %%rdx,  0(%%rsp)\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq %%rcx,  8(%%rsp)\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq %%rax, 16(%%rsp)\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq $0x%08x, %%rcx\n&quot;</span></span><br><span class="line">  <span class="string">&quot;call __afl_maybe_log\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq 16(%%rsp), %%rax\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq  8(%%rsp), %%rcx\n&quot;</span></span><br><span class="line">  <span class="string">&quot;movq  0(%%rsp), %%rdx\n&quot;</span></span><br><span class="line">  <span class="string">&quot;leaq (128+24)(%%rsp), %%rsp\n&quot;</span></span><br><span class="line">  <span class="string">&quot;\n&quot;</span></span><br><span class="line">  <span class="string">&quot;/* --- END --- */\n&quot;</span></span><br><span class="line">  <span class="string">&quot;\n&quot;</span>;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>将当前 rsp 下降 (128+24)</li>
+<li>rdx rcx rax 分别保存在 rsp 上面一丢丢</li>
+<li>将 <code>R(MAP_SIZE)</code>  这个随机数 (0-65535) 给到 rcx 调用__afl_maybe_log (这个随机数是基本块标号，编译时确定)</li>
+</ol>
+<h1 id="main_payload_64"><a class="markdownIt-Anchor" href="#main_payload_64">#</a> main_payload_64</h1>
+<p>这个主要是注入大量函数逻辑</p>
+<h2 id="__afl_maybe_log"><a class="markdownIt-Anchor" href="#__afl_maybe_log">#</a> __afl_maybe_log</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;__afl_maybe_log:\n&quot;</span><br><span class="line">&quot;  lahf\n&quot;</span><br><span class="line">&quot;  seto  %al\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  movq  __afl_area_ptr(%rip), %rdx\n&quot;</span><br><span class="line">&quot;  testq %rdx, %rdx\n&quot;</span><br><span class="line">&quot;  je    __afl_setup\n&quot;</span><br><span class="line">&quot;__afl_store:\n&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>lahf : load to ah from eflags</li>
+<li>seto : set to 1 if target byte overflow</li>
+<li>如果 <code>__afl_area_ptr</code>  里没有东西 就跳转到 <code>__afl_setup</code>  (setup 属于共享内存没被初始化的情况，第一次 if 才会走到里面去)</li>
+<li>否则就进行 <code>__afl_store</code> <br>
+ 其中 <code>__afl_area_ptr</code>  是共享内存的指针 attach 上 fuzzer 创建的。</li>
+</ul>
+<h2 id="__afl_store"><a class="markdownIt-Anchor" href="#__afl_store">#</a> __afl_store</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&quot;__afl_store:\n&quot;</span><br><span class="line">&quot;  xorq __afl_prev_loc(%rip), %rcx\n&quot;</span><br><span class="line">&quot;  xorq %rcx, __afl_prev_loc(%rip)\n&quot;</span><br><span class="line">&quot;  shrq $1, __afl_prev_loc(%rip)\n&quot;</span><br><span class="line">&quot;  incb (%rdx, %rcx, 1)\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;__afl_return:\n&quot;</span><br><span class="line">&quot;  addb $127, %al\n&quot;</span><br><span class="line">&quot;  sahf\n&quot;</span><br><span class="line">&quot;  ret\n&quot;</span><br></pre></td></tr></table></figure>
+<p>为了验证这个原理，上 gdb 调试一下，随便编译一个函数 打断点在 log 那 然后由于通信建立不起来 需要改 prev loc 的内存</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gef➤  set &#123;int&#125;&amp;__afl_area_ptr=1</span><br><span class="line">gef➤  x/4gx &amp;__afl_area_ptr</span><br><span class="line">0x4040a0 &lt;__afl_area_ptr&gt;:      0x0000000000000001      0x0000000000000001</span><br><span class="line">0x4040b0 &lt;__afl_fork_pid&gt;:      0x0000000000000000      0x0000000000000001</span><br></pre></td></tr></table></figure>
+<p>然后</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">→   0x4017a0 &lt;__afl_store+0&gt;  xor    rcx, QWORD PTR [rip+0x2901]        # 0x4040a8 &lt;__afl_prev_loc&gt;</span><br><span class="line">    0x4017a7 &lt;__afl_store+7&gt;  xor    QWORD PTR [rip+0x28fa], rcx        # 0x4040a8 &lt;__afl_prev_loc&gt;</span><br><span class="line">    0x4017ae &lt;__afl_store+14&gt; shr    QWORD PTR [rip+0x28f3], 1        # 0x4040a8 &lt;__afl_prev_loc&gt;</span><br><span class="line">    0x4017b5 &lt;__afl_store+21&gt; inc    BYTE PTR [rdx+rcx*1]</span><br></pre></td></tr></table></figure>
+<p>其实就是  <code>__afl_prev_loc = __afl_prev_loc ^ rcx ^ __afl_prev_loc = rcx</code>  就是一个赋值的 trick<br>
+rcx 是这一块地址的标号 在操作之后变成了 上一块地址标号 ^ 当前本块地址标号、<br>
+上一块地址标号变成了 本块地址标号 &gt;&gt; 1。<br>
+rdx  <code>__afl_area_ptr(%rip), %rdx</code>  就是共享内存指针了。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cur_location = &lt;COMPILE_TIME_RANDOM&gt;;</span><br><span class="line">shared_mem[cur_location ^ prev_location]++; </span><br><span class="line">prev_location = cur_location &gt;&gt; <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>右移是为了区分 A -&gt; B or B -&gt; A or X -&gt; X.</p>
+<h2 id="__afl_setup"><a class="markdownIt-Anchor" href="#__afl_setup">#</a> __afl_setup</h2>
+<p>最重要的部分就是这个 shmat 的调用，attach 到 fuzzer 里 setup 的 shm<br>
+ 共享内存指针保存在 <code>__afl_area_ptr</code>  中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&quot;\n&quot;</span><br><span class="line">&quot;  xorq %rdx, %rdx   /* shmat flags    */\n&quot;</span><br><span class="line">&quot;  xorq %rsi, %rsi   /* requested addr */\n&quot;</span><br><span class="line">&quot;  movq %rax, %rdi   /* SHM ID         */\n&quot;</span><br><span class="line">CALL_L64(&quot;shmat&quot;)</span><br><span class="line">&quot;\n&quot;</span><br><span class="line">&quot;  cmpq $-1, %rax\n&quot;</span><br><span class="line">&quot;  je   __afl_setup_abort\n&quot;</span><br><span class="line">&quot;\n&quot;</span><br><span class="line">&quot;  /* Store the address of the SHM region. */\n&quot;</span><br><span class="line">&quot;\n&quot;</span><br><span class="line">&quot;  movq %rax, %rdx\n&quot;</span><br><span class="line">&quot;  movq %rax, __afl_area_ptr(%rip)\n&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="__afl_forkserver"><a class="markdownIt-Anchor" href="#__afl_forkserver">#</a> __afl_forkserver</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&quot;__afl_forkserver:\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  pushq %rdx\n&quot;</span><br><span class="line">&quot;  pushq %rdx\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  movq $4, %rdx               /* length    */\n&quot;</span><br><span class="line">&quot;  leaq __afl_temp(%rip), %rsi /* data      */\n&quot;</span><br><span class="line">&quot;  movq $&quot; STRINGIFY((FORKSRV_FD + 1)) &quot;, %rdi       /* file desc */\n&quot;</span><br><span class="line">CALL_L64(&quot;write&quot;)</span><br><span class="line"></span><br><span class="line">&quot;  cmpq $4, %rax\n&quot;</span><br><span class="line">&quot;  jne  __afl_fork_resume\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;__afl_fork_wait_loop:\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  movq $4, %rdx               /* length    */\n&quot;</span><br><span class="line">&quot;  leaq __afl_temp(%rip), %rsi /* data      */\n&quot;</span><br><span class="line">&quot;  movq $&quot; STRINGIFY(FORKSRV_FD) &quot;, %rdi             /* file desc */\n&quot;</span><br><span class="line">CALL_L64(&quot;read&quot;)</span><br><span class="line"></span><br><span class="line">&quot;  cmpq $4, %rax\n&quot;</span><br><span class="line">&quot;  jne  __afl_die\n&quot;</span><br><span class="line">&quot;\n&quot;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>存入两次 <code>__afl_area_ptr</code>  的指针</li>
+<li>STRINGIFY ((FORKSRV_FD + 1)) 就是 # stringify</li>
+<li>先写信息给 fuzzer 中去（写什么应该关系不大 就代表着来信息了）</li>
+<li>然后从 forkserver 中读取 fuzzer 传输来的控制信息到 <code>__afl_temp</code></li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CALL_L64(&quot;fork&quot;)</span><br><span class="line">&quot;  cmpq $0, %rax\n&quot;</span><br><span class="line">&quot;  jl   __afl_die\n&quot;</span><br><span class="line">&quot;  je   __afl_fork_resume\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  movl %eax, __afl_fork_pid(%rip)\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  movq $4, %rdx                   /* length    */\n&quot;</span><br><span class="line">&quot;  leaq __afl_fork_pid(%rip), %rsi /* data      */\n&quot;</span><br><span class="line">&quot;  movq $&quot; STRINGIFY((FORKSRV_FD + 1)) &quot;, %rdi             /* file desc */\n&quot;</span><br><span class="line">CALL_L64(&quot;write&quot;)</span><br><span class="line"></span><br><span class="line">&quot;  movq $0, %rdx                   /* no flags  */\n&quot;</span><br><span class="line">&quot;  leaq __afl_temp(%rip), %rsi     /* status    */\n&quot;</span><br><span class="line">&quot;  movq __afl_fork_pid(%rip), %rdi /* PID       */\n&quot;</span><br><span class="line">CALL_L64(&quot;waitpid&quot;)</span><br><span class="line"></span><br><span class="line">&quot;  cmpq $0, %rax\n&quot;</span><br><span class="line">&quot;  jle  __afl_die\n&quot;</span><br><span class="line"></span><br><span class="line">&quot;  movq $4, %rdx               /* length    */\n&quot;</span><br><span class="line">&quot;  leaq __afl_temp(%rip), %rsi /* data      */\n&quot;</span><br><span class="line">&quot;  movq $&quot; STRINGIFY((FORKSRV_FD + 1)) &quot;, %rdi         /* file desc */\n&quot;</span><br><span class="line">CALL_L64(&quot;write&quot;)</span><br><span class="line"></span><br><span class="line">&quot;  jmp  __afl_fork_wait_loop\n&quot;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>fork 出目标程序的子进程 跳转到 <code>__afl_fork_resume</code></li>
+<li>对于 forkserver 本 f，保存子进程 pid 到 <code>__afl_fork_pid</code></li>
+<li>然后写给 fuzzer</li>
+<li>waitpid 等待子进程结束</li>
+<li>结束后吧 status 写回给 fuzzer，跳转回 <code>__afl_fork_wait_loop</code></li>
+</ul>
+<h2 id="__afl_fork_resume"><a class="markdownIt-Anchor" href="#__afl_fork_resume">#</a> __afl_fork_resume</h2>
+<p>这里主要是 由 forkserver fork 出来的 child 是要执行目标进程的，就需要恢复由于执行 forkserver 而压入的上下文以及关掉两个通信的文件描述符。<br>
+所以这里就是简单的恢复上下文，关闭，执行正常逻辑代码。</p>
+<h1 id="summary"><a class="markdownIt-Anchor" href="#summary">#</a> summary</h1>
+<p>个人画的总结图，还可以吧？<br>
+<img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/2022/11/03/afl-forkserver-maneuver/mydraw.png" alt></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="Squirre17">Squirre17</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://squirre17.github.io/2022/11/03/afl-forkserver-maneuver/">https://squirre17.github.io/2022/11/03/afl-forkserver-maneuver/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://Squirre17.github.io">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/afl/">afl</a></div><div class="post_share"><div class="social-share" data-image="/imgs/yuigahama1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/"><img class="next-cover" src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/mashiro1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">CVE-2022-0847-DIRTY-PIPE-detail</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Squirre17</div><div class="author-info__description">introvert</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">15</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">13</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">7</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Squirre17"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Squirre17" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:Ler2sq@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">Beta Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#forkserver%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="toc-number">1.</span> <span class="toc-text"> forkserver 的目的</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#trampoline"><span class="toc-number">2.</span> <span class="toc-text"> trampoline</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#main_payload_64"><span class="toc-number">3.</span> <span class="toc-text"> main_payload_64</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#__afl_maybe_log"><span class="toc-number">3.1.</span> <span class="toc-text"> __afl_maybe_log</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#__afl_store"><span class="toc-number">3.2.</span> <span class="toc-text"> __afl_store</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#__afl_setup"><span class="toc-number">3.3.</span> <span class="toc-text"> __afl_setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#__afl_forkserver"><span class="toc-number">3.4.</span> <span class="toc-text"> __afl_forkserver</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#__afl_fork_resume"><span class="toc-number">3.5.</span> <span class="toc-text"> __afl_fork_resume</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#summary"><span class="toc-number">4.</span> <span class="toc-text"> summary</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/11/03/afl-forkserver-maneuver/" title="afl-forkserver-maneuver"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/yuigahama1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="afl-forkserver-maneuver"/></a><div class="content"><a class="title" href="/2022/11/03/afl-forkserver-maneuver/" title="afl-forkserver-maneuver">afl-forkserver-maneuver</a><time datetime="2022-11-03T11:12:15.000Z" title="Created 2022-11-03 19:12:15">2022-11-03</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/" title="CVE-2022-0847-DIRTY-PIPE-detail"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/mashiro1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="CVE-2022-0847-DIRTY-PIPE-detail"/></a><div class="content"><a class="title" href="/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/" title="CVE-2022-0847-DIRTY-PIPE-detail">CVE-2022-0847-DIRTY-PIPE-detail</a><time datetime="2022-11-02T14:19:00.000Z" title="Created 2022-11-02 22:19:00">2022-11-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/30/debugger-impl/" title="debugger-impl"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/hitoli1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="debugger-impl"/></a><div class="content"><a class="title" href="/2022/10/30/debugger-impl/" title="debugger-impl">debugger-impl</a><time datetime="2022-10-30T06:46:09.000Z" title="Created 2022-10-30 14:46:09">2022-10-30</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/26/Ghidra-INDIRECT-explanation/" title="Ghidra-INDIRECT-explanation"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/yuigahama1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Ghidra-INDIRECT-explanation"/></a><div class="content"><a class="title" href="/2022/10/26/Ghidra-INDIRECT-explanation/" title="Ghidra-INDIRECT-explanation">Ghidra-INDIRECT-explanation</a><time datetime="2022-10-26T10:05:02.000Z" title="Created 2022-10-26 18:05:02">2022-10-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/10/18/shared-memory-and-semaphore-machenism/" title="shared-memory-and-semaphore-machenism"><img src= "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-lazy-src="/imgs/yume2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="shared-memory-and-semaphore-machenism"/></a><div class="content"><a class="title" href="/2022/10/18/shared-memory-and-semaphore-machenism/" title="shared-memory-and-semaphore-machenism">shared-memory-and-semaphore-machenism</a><time datetime="2022-10-18T06:57:37.000Z" title="Created 2022-10-18 14:57:37">2022-10-18</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Squirre17</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Switch Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

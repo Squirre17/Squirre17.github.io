@@ -19,6 +19,7 @@
         <category>Ghidra</category>
         <category>debugger</category>
         <category>Kernel</category>
+        <category>afl</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/</guid>
             <title>CVE-2022-0847-DIRTY-PIPE-detail</title>
