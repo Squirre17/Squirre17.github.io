@@ -20,6 +20,7 @@
         <category>debugger</category>
         <category>Kernel</category>
         <category>afl</category>
+        <category>pwn</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/10/18/shared-memory-and-semaphore-machenism/</guid>
             <title>shared-memory-and-semaphore-machenism</title>

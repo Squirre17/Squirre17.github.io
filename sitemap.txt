@@ -1,3 +1,4 @@
+https://squirre17.github.io/2022/11/08/2021-redhat-simpleVM/
 https://squirre17.github.io/2022/11/03/afl-forkserver-maneuver/
 https://squirre17.github.io/2022/10/26/Ghidra-INDIRECT-explanation/
 https://squirre17.github.io/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/
@@ -31,6 +32,7 @@ https://squirre17.github.io/tags/Ghidra/
 https://squirre17.github.io/tags/debugger/
 https://squirre17.github.io/tags/Kernel/
 https://squirre17.github.io/tags/afl/
+https://squirre17.github.io/tags/pwn/
 https://squirre17.github.io/categories/CVE-recur/
 https://squirre17.github.io/categories/Tips/
 https://squirre17.github.io/categories/ctf/

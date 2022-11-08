@@ -20,6 +20,7 @@
         <category>debugger</category>
         <category>Kernel</category>
         <category>afl</category>
+        <category>pwn</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/09/02/Capture-the-ether-Lotteries-wp/</guid>
             <title>Capture-the-ether-Lotteries-wp</title>

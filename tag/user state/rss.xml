@@ -20,6 +20,7 @@
         <category>debugger</category>
         <category>Kernel</category>
         <category>afl</category>
+        <category>pwn</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2021/08/11/CVE-2021-4030-polkit-pkexec-%E6%9C%AC%E5%9C%B0%E6%8F%90%E6%9D%83/</guid>
             <title>CVE-2021-4030 polkit-pkexec 本地提权分析</title>
