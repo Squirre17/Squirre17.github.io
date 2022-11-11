@@ -7,20 +7,20 @@
         <language>en</language>
         <pubDate>Wed, 02 Nov 2022 22:19:00 +0800</pubDate>
         <lastBuildDate>Wed, 02 Nov 2022 22:19:00 +0800</lastBuildDate>
-        <category>IoT</category>
-        <category>Linux</category>
-        <category>User state</category>
-        <category>Tips</category>
-        <category>Blockchain</category>
-        <category>Kernel state</category>
-        <category>writeup</category>
-        <category>virtualization</category>
-        <category>llvm</category>
-        <category>Ghidra</category>
-        <category>debugger</category>
-        <category>Kernel</category>
-        <category>afl</category>
         <category>pwn</category>
+        <category>llvm</category>
+        <category>Linux</category>
+        <category>writeup</category>
+        <category>Blockchain</category>
+        <category>User state</category>
+        <category>IoT</category>
+        <category>Kernel</category>
+        <category>Ghidra</category>
+        <category>virtualization</category>
+        <category>afl</category>
+        <category>debugger</category>
+        <category>Kernel state</category>
+        <category>Tips</category>
         <item>
             <guid isPermalink="true">https://squirre17.github.io/2022/11/02/CVE-2022-0847-DIRTY-PIPE-detail/</guid>
             <title>CVE-2022-0847-DIRTY-PIPE-detail</title>
